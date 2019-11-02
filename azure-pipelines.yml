@@ -1,0 +1,31 @@
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+  dockerfilepath: '**/Dockerfile'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: docker login -u pinaki1 -p zaq1Xsw2@
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: buildAndPush
+        dockerfile: $(dockerfilepath)
+        repository: pinaki1/coreci
+        tags: |
+          tag1
+
+
